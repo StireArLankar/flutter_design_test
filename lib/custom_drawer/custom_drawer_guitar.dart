@@ -121,6 +121,7 @@ class CustomGuitarDrawerState extends State<CustomGuitarDrawer>
     if (animationController.isDismissed || animationController.isCompleted) {
       return;
     }
+
     if (details.velocity.pixelsPerSecond.dx.abs() >= _kMinFlingVelocity) {
       double visualVelocity =
           details.velocity.pixelsPerSecond.dx / MediaQuery.of(context).size.width;

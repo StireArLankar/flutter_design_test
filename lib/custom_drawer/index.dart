@@ -2,30 +2,60 @@ import 'package:flutter/material.dart';
 
 import 'custom_drawer.dart';
 import 'custom_drawer_guitar.dart';
+import 'custom_drawer_discord.dart';
+
+enum Variants { Scale, Rotate, Translate }
+
+Variants variant = Variants.Translate;
 
 class CustomDrawerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    bool flip = true;
+    AppBar appBar;
+    Widget child;
 
-    AppBar appBar = flip
-        ? AppBar()
-        : AppBar(
-            leading: Builder(
+    switch (variant) {
+      case Variants.Rotate:
+        appBar = AppBar();
+        child = MyHomePage(appBar: appBar);
+        child = CustomGuitarDrawer(child: child);
+        break;
+
+      case Variants.Scale:
+        appBar = AppBar(
+          leading: Builder(
+            builder: (context) => IconButton(
+              icon: Icon(Icons.menu),
+              onPressed: () => CustomDrawer.of(context).open(),
+            ),
+          ),
+          title: Text('Hello Flutter Europe'),
+        );
+        child = MyHomePage(appBar: appBar);
+        child = CustomDrawer(child: child);
+        break;
+
+      case Variants.Translate:
+        appBar = AppBar(
+          leading: Builder(
+            builder: (context) => IconButton(
+              icon: Icon(Icons.menu),
+              onPressed: () => CustomDrawerDiscord.of(context).toggleDrawer(),
+            ),
+          ),
+          actions: <Widget>[
+            Builder(
               builder: (context) => IconButton(
                 icon: Icon(Icons.menu),
-                onPressed: () => CustomDrawer.of(context).open(),
+                onPressed: () => CustomDrawerDiscord.of(context).toggleDrawer2(),
               ),
             ),
-            title: Text('Hello Flutter Europe'),
-          );
-
-    Widget child = MyHomePage(appBar: appBar);
-
-    if (flip) {
-      child = CustomGuitarDrawer(child: child);
-    } else {
-      child = CustomDrawer(child: child);
+          ],
+          title: Text('Hello Custom Discord Drawer'),
+        );
+        child = MyHomePage(appBar: appBar);
+        child = CustomDrawerDiscord(child: child);
+        break;
     }
 
     return MaterialApp(
