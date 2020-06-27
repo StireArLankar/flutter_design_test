@@ -13,31 +13,59 @@ class CustomPageTransitionPage extends StatelessWidget {
 class Page1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme(
-      data: ThemeData.dark(),
+      data: ThemeData.dark().copyWith(buttonColor: Colors.amber[200]),
       child: Scaffold(
         appBar: AppBar(),
-        body: Container(
-          width: MediaQuery.of(context).size.width / 2,
-          height: MediaQuery.of(context).size.height / 2,
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: GestureDetector(
-              onTapUp: (details) {
-                final route = ScaleRoute(page: Page2(), offset: details.globalPosition);
-                Navigator.of(context).pushReplacement(route);
-              },
-              child: Container(
-                width: 100,
-                height: 30,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: ThemeData.dark().buttonTheme.colorScheme.background,
-                ),
-                alignment: Alignment.center,
-                child: Text('Go!'),
-              ),
-            ),
+        body: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Stack(
+            children: <Widget>[
+              AlignButton(Alignment.topLeft, Page2()),
+              AlignButton(Alignment.topLeft, Page2()),
+              AlignButton(Alignment.topCenter, Page2()),
+              AlignButton(Alignment.topRight, Page2()),
+              AlignButton(Alignment.centerRight, Page2()),
+              AlignButton(Alignment.bottomRight, Page2()),
+              AlignButton(Alignment.bottomCenter, Page2()),
+              AlignButton(Alignment.bottomLeft, Page2()),
+              AlignButton(Alignment.centerLeft, Page2()),
+              AlignButton(Alignment.center, Page2()),
+            ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class AlignButton extends StatelessWidget {
+  final AlignmentGeometry align;
+  final Widget page;
+
+  const AlignButton(
+    this.align,
+    this.page, {
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: align,
+      child: GestureDetector(
+        onTapUp: (details) {
+          final route = ScaleRoute(page: page, offset: details.globalPosition);
+          Navigator.of(context).pushReplacement(route);
+        },
+        child: Container(
+          width: 100,
+          height: 30,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Theme.of(context).buttonTheme.colorScheme.primaryVariant,
+          ),
+          alignment: Alignment.center,
+          child: Text('Go!'),
         ),
       ),
     );
@@ -50,27 +78,21 @@ class Page2 extends StatelessWidget {
       data: ThemeData.light(),
       child: Scaffold(
         appBar: AppBar(),
-        body: Container(
-          width: MediaQuery.of(context).size.width / 2,
-          height: MediaQuery.of(context).size.height / 2,
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: GestureDetector(
-              onTapUp: (details) {
-                final route = ScaleRoute(page: Page1(), offset: details.globalPosition);
-                Navigator.of(context).pushReplacement(route);
-              },
-              child: Container(
-                width: 100,
-                height: 30,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: ThemeData.light().buttonTheme.colorScheme.background,
-                ),
-                alignment: Alignment.center,
-                child: Text('Go!'),
-              ),
-            ),
+        body: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Stack(
+            children: <Widget>[
+              AlignButton(Alignment.topLeft, Page1()),
+              AlignButton(Alignment.topLeft, Page1()),
+              AlignButton(Alignment.topCenter, Page1()),
+              AlignButton(Alignment.topRight, Page1()),
+              AlignButton(Alignment.centerRight, Page1()),
+              AlignButton(Alignment.bottomRight, Page1()),
+              AlignButton(Alignment.bottomCenter, Page1()),
+              AlignButton(Alignment.bottomLeft, Page1()),
+              AlignButton(Alignment.centerLeft, Page1()),
+              AlignButton(Alignment.center, Page1()),
+            ],
           ),
         ),
       ),
